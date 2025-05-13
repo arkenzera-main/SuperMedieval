@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperMedieval - Roleplay Medieval no Garry's Mod</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0f0e0b;
+            color: #e0d6bd;
+            scroll-behavior: smooth;
+        }
+        
+        .medieval-font {
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .castle-bg {
+            background-image: url('https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        }
+        
+        .tavern-bg {
+            background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80');
+        }
+        
+        .battle-bg {
+            background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80');
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .parchment {
+            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png');
+            background-color: #f5e7c8;
+            color: #3a3222;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .fade-in {
+            animation: fadeIn 1.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-gray-900 bg-opacity-90 fixed w-full z-10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-yellow-400 medieval-font text-2xl">SuperMedieval</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#home" class="text-yellow-400 hover:bg-gray-800 px-3 py-2 rounded-md text-sm font-medium">Início</a>
+                            <a href="#about" class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Sobre</a>
+                            <a href="#team" class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Equipe</a>
+                            <a href="#features" class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Recursos</a>
+                            <a href="#join" class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Junte-se</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-medium medieval-font">
+                            Jogar Agora
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Abrir menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-yellow-400 block px-3 py-2 rounded-md text-base font-medium">Início</a>
+                <a href="#about" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Sobre</a>
+                <a href="#team" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Equipe</a>
+                <a href="#features" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Recursos</a>
+                <a href="#join" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Junte-se</a>
+                <button class="bg-yellow-600 hover:bg-yellow-700 text-white w-full px-4 py-2 rounded-md text-base font-medium medieval-font mt-2">
+                    Jogar Agora
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="parallax castle-bg h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto fade-in">
+            <h1 class="text-5xl md:text-7xl font-bold text-yellow-400 mb-6 medieval-font tracking-wide">
+                SuperMedieval
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-8">
+                Um mundo de aventuras medievais no Garry's Mod. Viva histórias épicas, batalhas lendárias e intrigas reais!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md text-lg font-medium medieval-font transform hover:scale-105 transition duration-300">
+                    Explorar o Reino
+                </button>
+                <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-md text-lg font-medium medieval-font transform hover:scale-105 transition duration-300">
+                    Ver Trailer
+                </button>
+            </div>
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator">
+                <a href="#about" class="text-white text-4xl">
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-4 medieval-font">
+                    Sobre o SuperMedieval
+                </h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Um servidor de Roleplay Medieval criado por um grupo de amigos apaixonados por histórias medievais e o Garry's Mod.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="p-8 parchment">
+                    <h3 class="text-2xl font-bold mb-4 medieval-font">Nossa História</h3>
+                    <p class="mb-4">
+                        O SuperMedieval nasceu da paixão de um grupo de amigos por criar experiências imersivas no Garry's Mod. Com POP PIC cuidando dos mapas incríveis, Joshua trazendo ideias inovadoras e uma equipe administrativa talentosa, estamos construindo um reino medieval único.
+                    </p>
+                    <p>
+                        Nosso objetivo é proporcionar uma experiência de roleplay medieval autêntica, com sistemas complexos, histórias envolventes e um mundo vivo que reage às ações dos jogadores.
+                    </p>
+                </div>
+                
+                <div class="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1560869713-8da9beaf26d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Castelo medieval" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-yellow-500 bg-opacity-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-20 parallax tavern-bg">
+        <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-4 medieval-font">
+                    Nossa Equipe
+                </h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Conheça os talentosos membros que tornam o SuperMedieval possível
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- POP PIC -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-map text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">POP PIC</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Mestre dos Mapas</p>
+                        <p class="text-gray-300 text-sm">
+                            O arquiteto por trás dos incríveis cenários medievais que compõem nosso mundo.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Joshua -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">Joshua</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Estrategista Criativo</p>
+                        <p class="text-gray-300 text-sm">
+                            A mente por trás de muitas das ideias inovadoras que tornam nosso servidor único.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Bawn -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-crown text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">Bawn</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Administrador Baiano</p>
+                        <p class="text-gray-300 text-sm">
+                            Nosso parceiro baiano que mantém a ordem no reino com sabedoria e bom humor.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Godzap -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-comments text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">Godzap</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Mestre da Lábia</p>
+                        <p class="text-gray-300 text-sm">
+                            O diplomata do grupo, capaz de resolver qualquer conflito com palavras.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Sugar -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-paint-brush text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">Sugar</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Criativo Foda</p>
+                        <p class="text-gray-300 text-sm">
+                            O talento criativo por trás de muitas das características únicas do servidor.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Vicz -->
+                <div class="bg-gray-800 bg-opacity-90 rounded-lg overflow-hidden shadow-lg team-card transition duration-500">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center">
+                        <i class="fas fa-palette text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 medieval-font">Vicz</h3>
+                        <p class="text-yellow-400 text-sm mb-4">Mestre das Artes</p>
+                        <p class="text-gray-300 text-sm">
+                            O artista que dá vida ao nosso mundo com suas habilidades visuais impressionantes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-4 medieval-font">
+                    Recursos do Servidor
+                </h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Descubra o que torna o SuperMedieval uma experiência única de roleplay medieval
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Mapas Exclusivos</h3>
+                    <p class="text-gray-300">
+                        Explore cidades medievais meticulosamente detalhadas, castelos imponentes e paisagens deslumbrantes criadas pelo POP PIC.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Sistema de Batalha</h3>
+                    <p class="text-gray-300">
+                        Participe de combates realistas com nosso sistema de batalha aprimorado, incluindo armas medievais autênticas.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Histórias Profundas</h3>
+                    <p class="text-gray-300">
+                        Envolva-se em tramas políticas, intrigas da corte e missões épicas que moldam o destino do reino.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Sistema de Nobreza</h3>
+                    <p class="text-gray-300">
+                        Ascenda na hierarquia social, tornando-se um nobre influente ou até mesmo um membro da realeza.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Profissões Detalhadas</h3>
+                    <p class="text-gray-300">
+                        Torne-se um ferreiro, alfaiate, agricultor ou qualquer outra profissão medieval com sistemas de crafting aprofundados.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <div class="text-yellow-400 text-4xl mb-4">
+                        <i class="fas fa-theater-masks"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 medieval-font">Eventos Especiais</h3>
+                    <p class="text-gray-300">
+                        Participe de torneios, festivais sazonais e eventos especiais que trazem vida ao mundo medieval.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Section -->
+    <section id="join" class="py-20 parallax battle-bg">
+        <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-4 medieval-font">
+                    Junte-se ao Reino
+                </h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Prepare-se para viver suas próprias histórias épicas no SuperMedieval
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="p-8 parchment">
+                    <h3 class="text-2xl font-bold mb-4 medieval-font">Como Jogar</h3>
+                    <p class="mb-4">
+                        Para entrar no mundo do SuperMedieval, você precisará do Garry's Mod instalado em seu computador.
+                    </p>
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>Adquira o Garry's Mod na Steam</li>
+                        <li>Conecte-se ao nosso servidor usando o IP: <span class="font-mono bg-gray-200 px-2 rounded">supermedieval.gmod.com</span></li>
+                        <li>Crie seu personagem e comece sua jornada!</li>
+                    </ol>
+                    <p class="mt-4">
+                        Nossa comunidade está sempre pronta para ajudar novos jogadores a se estabelecerem no reino.
+                    </p>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-800 bg-opacity-90 rounded-lg p-6 shadow-xl">
+                        <h3 class="text-xl font-bold text-yellow-400 mb-4 medieval-font">Entre em Nossa Comunidade</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300">Seu Nome</label>
+                                <input type="text" id="name" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white focus:border-yellow-500 focus:ring-yellow-500">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300">Seu Email</label>
+                                <input type="email" id="email" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white focus:border-yellow-500 focus:ring-yellow-500">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-300">Mensagem</label>
+                                <textarea id="message" rows="3" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 px-4 rounded-md font-medium medieval-font">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-center space-x-6">
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <i class="fab fa-discord text-3xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <i class="fab fa-steam text-3xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <i class="fab fa-youtube text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-yellow-400 mb-4 medieval-font">SuperMedieval</h3>
+                    <p class="text-gray-400">
+                        Um servidor de Roleplay Medieval no Garry's Mod criado com paixão por um grupo de amigos talentosos.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4 medieval-font">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-yellow-400">Início</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-yellow-400">Sobre</a></li>
+                        <li><a href="#team" class="text-gray-400 hover:text-yellow-400">Equipe</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-yellow-400">Recursos</a></li>
+                        <li><a href="#join" class="text-gray-400 hover:text-yellow-400">Junte-se</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4 medieval-font">Contato</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+                            contato@supermedieval.com
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fab fa-discord mr-2 text-yellow-400"></i>
+                            https://discord.gg/q8Hg7Y5BAN
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>© 2025 SuperMedieval - Todos os direitos reservados. Garry's Mod é uma marca registrada da Facepunch Studios.</p>
+                <p class="mt-2">Desenvolvido com paixão e carinho e darwin project!!!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add fade-in animation when elements come into view
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                }
+            });
+        }, {threshold: 0.1});
+        
+        fadeElements.forEach(element => {
+            fadeInObserver.observe(element);
+        });
+    </script>
+</body>
+</html>
